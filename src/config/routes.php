@@ -282,11 +282,9 @@ Router::get('/portfolio-created', function ($request) {
 // ahmzyjazzy add this (^_^) : setting page
 Router::get('/settings', function ($request) {
     $user = new Ziki\Core\Auth();
-    if (!$user->is_logged_in()) {
-        return $user->redirect('/');
-    }
-    $setting = new Ziki\Core\Setting();
-    $settings = $setting->getSetting();
+    // if (!$user->is_logged_in()) {
+    //     return $user->redirect('/');
+    // }
     $count = new Ziki\Core\Subscribe();
     $fcount = $count->fcount();
     $count = $count->count();
@@ -308,20 +306,26 @@ Router::post('/appsetting', function ($request) {
 
     $setting = new Ziki\Core\Setting();
 
-    try {
-        $result = $setting->updateSetting($field, $value);
-        if ($result) {
-            echo json_encode(array("msg" => "Setting updated successfully", "status" => "success", "data" => $result));
-        } else {
-            if ($field === 'THEME') {
-                echo json_encode(array("msg" => "Theme does not exist", "status" => "error", "data" => null));
+    if($field === 'FAVICON'){
+        //perform favicon image upload and make app use favicon
+        
+
+    }else{
+        try {
+            $result = $setting->updateSetting($field, $value);
+            if ($result) {
+                echo json_encode(array("msg" => "Setting updated successfully", "status" => "success", "data" => $result));
             } else {
-                echo json_encode(array("msg" => "Unable to update setting, please try again", "status" => "error", "data" => null));
+                if ($field === 'THEME') {
+                    echo json_encode(array("msg" => "Theme does not exist", "status" => "error", "data" => null));
+                } else {
+                    echo json_encode(array("msg" => "Unable to update setting, please try again", "status" => "error", "data" => null));
+                }
             }
+        } catch (Exception $e) {
+            echo json_encode(array("msg" => "Caught exception: ",  $e->getMessage(), "\n", "status" => "error", "data" => null));
         }
-    } catch (Exception $e) {
-        echo json_encode(array("msg" => "Caught exception: ",  $e->getMessage(), "\n", "status" => "error", "data" => null));
-    }
+    }   
 });
 
 // profile page

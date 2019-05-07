@@ -7,7 +7,7 @@
 </style>
 <div id="content" class="container">
     <div class="row">
-        <div class="col-lg-11 col-md-11 col-sm-12 col-xs-12 mt-3 offset-md-1 offset-lg-1">
+        <div class="col-lg-11 col-md-11 col-sm-12 col-xs-12 mt-3 offset-md-1 offset-lg-1 pr-5">
 
             {% set navigation = [
                 {'href': 'settings', 'caption': 'Settings'},
@@ -128,18 +128,28 @@
                         {% for theme in themeList %}
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xm-12 pb-2 theme-item mt-3 d-flex flex-column"
                             data-name="{{ theme.name }}" title="Click to set {{ theme.name }} theme">
-                            <figure class="px-0 py-0 mb-0" style="position:relative;">
+                            <figure class="px-0 py-0 mb-0 theme-fig">
                                 <img src="{{ theme.imagePath }}" alt="" class="img-fluid w-100 rounded-top">
+                                {% if appsettings.THEME == theme.alias %}
+                                <span class="theme-active">ACTIVE</span>{% endif %}
                             </figure>
                             <div class="theme-state d-flex justify-content-start align-items-center px-3 py-2 rounded-bottom"
                                 {% if theme.color %} style="background-color:{{ theme.color }};" {% endif %}>
-                                <p class="text-white my-0 align-self-center">
-                                    {% if appsettings.THEME == theme.alias %}
-                                    <span class="theme-active">ACTIVE:</span>{% endif %}
-                                    {{ theme.name }}</p>
+                                <p class="text-white my-0 align-self-center">{{ theme.name }}</p>
                             </div>
                         </div>
                         {% endfor %}
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xm-12 pb-2 mt-3 d-flex flex-column" data-name="Pine"
+                            title="Click to set pine theme" onclick="alert('Theme not available');">
+                            <figure class="px-0 py-0 mb-0 theme-fig">
+                                <img src="/resources/themes/ghost/assets/img/theme3.jpg" alt=""
+                                    class="img-fluid w-100 rounded-top">
+                            </figure>
+                            <div class="theme-state d-flex justify-content-start align-items-center px-3 py-2 rounded-bottom"
+                                style="background-color:#4A794F;">
+                                <p class="text-white my-0 align-self-center">Pine</p>
+                            </div>
+                        </div>
                         <!-- /end backend looping code here -->
                     </div>
                     <script>
